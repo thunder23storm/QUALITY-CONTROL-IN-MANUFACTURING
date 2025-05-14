@@ -1,0 +1,57 @@
+INPUT:
+
+import random
+
+# Tolerances for product inspection
+TOLERANCES = {
+    "length": (9.5, 10.5),  # in cm
+    "width": (4.8, 5.2),    # in cm
+    "weight": (95, 105),    # in grams
+    "temperature": (20, 30),  # degrees Celsius
+}
+
+# Simulate IoT sensor data for a batch of products
+def generate_product_data(batch_size=10):
+    data = []
+    for i in range(batch_size):
+        product = {
+            "id": i + 1,
+            "length": round(random.uniform(9.0, 11.0), 2),
+            "width": round(random.uniform(4.5, 5.5), 2),
+            "weight": round(random.uniform(90, 110), 2),
+            "temperature": round(random.uniform(18, 32), 1)
+        }
+        data.append(product)
+    return data
+
+# Function to inspect product quality
+def check_quality(product):
+    for param, (min_val, max_val) in TOLERANCES.items():
+        if not (min_val <= product[param] <= max_val):
+            return "Fail"
+    return "Pass"
+
+# Function to evaluate batch and print results
+def evaluate_batch(products):
+    print("AI Quality Control Report")
+    print("-" * 30)
+    for p in products:
+        result = check_quality(p)
+        print(f"Product ID {p['id']}: {result} | Data: {p}")
+
+# Simulate and evaluate a batch
+if _name_ == "_main_":
+    products = generate_product_data(batch_size=5)
+    evaluate_batch(products)
+
+
+OUTPUT:
+AI Quality Control Report
+------------------------------
+Product ID 1: Fail | Data: {'id': 1, 'length': 9.49, 'width': 4.69, 'weight': 108.25, 'temperature': 29.5}
+Product ID 2: Pass | Data: {'id': 2, 'length': 10.41, 'width': 4.98, 'weight': 103.48, 'temperature': 20.5}
+Product ID 3: Fail | Data: {'id': 3, 'length': 10.05, 'width': 4.74, 'weight': 102.59, 'temperature': 21.5}
+Product ID 4: Fail | Data: {'id': 4, 'length': 9.47, 'width': 5.28, 'weight': 99.72, 'temperature': 18.7}
+Product ID 5: Fail | Data: {'id': 5, 'length': 10.92, 'width': 5.15, 'weight': 96.4, 'temperature': 18.7}
+
+=== Code Execution Successful ===
